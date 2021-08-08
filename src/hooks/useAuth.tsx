@@ -58,17 +58,25 @@ function AuthProvider({ children }: AuthProviderData) {
 
       const authResponse = await startAsync({ authUrl });
 
-      if (authResponse.type === 'success') {   
+      if (authResponse.type === 'success' && authResponse.params.error !== 'access_denied') {   
         if (authResponse.params.state !== STATE) {
           throw new Error('Invalid state value');
         }
-
-        api.defaults.headers.authorization = `Bearer ${authResponse.params.access_token}`;
+        
+        const token = authResponse.params.access_token;
+        api.defaults.headers.authorization = `Bearer ${token}`;
 
         const userResponse = await api.get('/users');
-        
-        setUser(userResponse.data.data[0]);
-        setUserToken(authResponse.params.token);
+
+        const userObject = userResponse.data.data[0];       
+        setUser({
+          id: userObject.id,
+          display_name: userObject.display_name,
+          email: userObject.email,
+          profile_image_url: userObject.profile_image_url,
+        });
+
+        setUserToken(token);
       }
     } catch (error) {
       throw new Error(error);
