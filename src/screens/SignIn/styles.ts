@@ -2,6 +2,7 @@ import { RectButton } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
 import { getBottomSpace, getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { MotiView } from 'moti';
+import { ActivityIndicator } from 'react-native';
 
 export const Container = styled(MotiView)`
   flex: 1;
