@@ -1,5 +1,6 @@
 import { RectButton } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
+import { Fontisto } from '@expo/vector-icons'
 import { getBottomSpace, getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { MotiView } from 'moti';
 import { ActivityIndicator } from 'react-native';
@@ -76,4 +77,16 @@ export const SignInButtonText = styled.Text`
   font-size: 15px;
   font-family: ${props => props.theme.fonts.regular};
   text-align: center;
+`;
+
+export const Icon = styled(Fontisto).attrs({
+  size: 20,
+})`
+  color: ${({ theme }) => theme.colors.white}
+`;
+
+export const Loading = styled(ActivityIndicator).attrs({
+  size: 20
+})`
+  color: ${({ theme }) => theme.colors.white}
 `;

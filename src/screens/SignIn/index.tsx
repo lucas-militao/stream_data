@@ -1,7 +1,5 @@
 import React from 'react';
-import { useTheme } from 'styled-components';
-import { Fontisto } from '@expo/vector-icons'
-import { ActivityIndicator, Alert, Modal, View } from 'react-native';
+import { Alert, Modal, View } from 'react-native';
 
 import { useAuth } from '../../hooks/useAuth';
 
@@ -18,18 +16,20 @@ import {
   Description, 
   SignInButton,
   SignInButtonIcon,
-  SignInButtonText 
+  SignInButtonText, 
+  Icon,
+  Loading
 } from './styles';
 
 export function SignIn() {
   const { signIn, isLoggingIn } = useAuth();
-  const theme = useTheme();
 
   async function handleSignIn() {
     try {
       await signIn();
     } catch (error) {
-      Alert.alert(error);
+      Alert.alert("Ocorreu um erro ao tentar logar no app");
+      console.log(error);
     }
   }
 
@@ -69,15 +69,8 @@ export function SignIn() {
             <SignInButtonIcon>
               {
                 isLoggingIn 
-                  ? <ActivityIndicator
-                      color={theme.colors.white}
-                      size={20}
-                    /> 
-                  : <Fontisto
-                      name="twitch"
-                      color={theme.colors.white}
-                      size={20}
-                    />
+                  ? <Loading /> 
+                  : <Icon name="twitch"/>
               }
             </SignInButtonIcon>
 

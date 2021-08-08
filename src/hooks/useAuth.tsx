@@ -3,7 +3,6 @@ import React, { useEffect, createContext, useContext, useState, ReactNode } from
 import { generateRandom } from 'expo-auth-session/build/PKCE';
 
 import { api } from '../services/api';
-import { Alert } from 'react-native';
 
 const { CLIENT_ID } = process.env;
 
@@ -39,8 +38,6 @@ function AuthProvider({ children }: AuthProviderData) {
   const [user, setUser] = useState({} as User);
   const [userToken, setUserToken] = useState('');
 
-  // get CLIENT_ID from environment variables
-
   async function signIn() {
     try {
       setIsLoggingIn(true);
@@ -67,14 +64,14 @@ function AuthProvider({ children }: AuthProviderData) {
         }
 
         api.defaults.headers.authorization = `Bearer ${authResponse.params.access_token}`;
-        console.log(authResponse.params.token);
+
         const userResponse = await api.get('/users');
         
         setUser(userResponse.data.data[0]);
         setUserToken(authResponse.params.token);
       }
     } catch (error) {
-      console.log(error);
+      throw new Error(error);
     } finally {
       setIsLoggingIn(false);
     }
